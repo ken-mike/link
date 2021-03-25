@@ -317,7 +317,7 @@ export default class LinkTool {
    *
    * @param {metaData} meta - link meta data
    */
-  showLinkPreview({ image, title, description }) {
+  showLinkPreview({ image, title, description, anchor }) {
     this.nodes.container.appendChild(this.nodes.linkContent);
 
     if (image && image.url) {
@@ -339,10 +339,14 @@ export default class LinkTool {
     this.nodes.linkContent.setAttribute('href', this.data.link);
     this.nodes.linkContent.appendChild(this.nodes.linkText);
 
-    try {
-      this.nodes.linkText.textContent = (new URL(this.data.link)).hostname;
-    } catch (e) {
-      this.nodes.linkText.textContent = this.data.link;
+    if (anchor) {
+      this.nodes.linkText.textContent = anchor;
+    } else {
+      try {
+        this.nodes.linkText.textContent = (new URL(this.data.link)).hostname;
+      } catch (e) {
+        this.nodes.linkText.textContent = this.data.link;
+      }
     }
   }
 
